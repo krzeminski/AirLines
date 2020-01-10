@@ -1,0 +1,125 @@
+html{
+  height: 100%;
+}
+body {
+  font-family: 'open sans';
+  font-size: 1rem;
+  height: 100%;
+  margin: 0;
+  min-height:100%;
+  position:relative;
+  padding-bottom:[footer-height];
+}
+
+h1, h2, h3 {
+  font-family: 'helvetica neue';
+
+}
+
+header, footer{
+  background-color: #85CF5D;
+  color: #fff;
+}
+
+footer{
+  line-height: 1.5rem;
+  text-align: center;
+  grid-row-start: 3;
+  grid-row-end: 4;
+}
+
+main{
+  min-height: 100% ;
+}
+
+
+
+a{
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover{
+  color: inherit;
+  opacity: 70%;
+  text-decoration: none;
+}
+
+a:visited{
+  color:inherit;
+  text-decoration: none;
+}
+
+.hero{
+  margin: 50px 0;
+}
+
+.copyright{
+  padding: 30px;
+}
+
+.logo{
+  text-align: right;
+  line-height: 2;
+  font-size: 2rem;
+}
+.card-body{
+  margin: auto 10%;
+}
+.row{
+  margin: 10px auto;
+}
+.super-word{
+  color:#7CC157;
+}
+
+
+.form-signin {
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: auto;
+}
+.form-signin .checkbox {
+  font-weight: 400;
+}
+.form-signin .form-control {
+  position: relative;
+  box-sizing: border-box;
+  height: auto;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+.logo{
+  border-radius: 25%;
+  margin: 5px;
+}
+.top{
+  margin-bottom: -1px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.middle{
+  margin-bottom: -1px;
+  border-radius: 0;
+}
+.bottom {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.company{
+  float: right;
+  /* font-family: 'helvetica neue'; */
+  margin-left: 5px;
+}
+
+.slogan{
+  text-align: right;
+  /* font-family: 'open sans'; */
+  font-size: 0.8rem;
+}

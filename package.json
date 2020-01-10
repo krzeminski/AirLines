@@ -1,0 +1,16 @@
+{
+  "name": "wiadroairlines",
+  "version": "1.0.0",
+  "description": "project for databases lessons",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Adrian Krzemiński, Miłosz Sabadach",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "ejs": "^3.0.1",
+    "express": "^4.17.1"
+  }
+}
