@@ -11,6 +11,18 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
+const Pool = require('pg').Pool;
+const pool = new Pool({
+  user: 'adrian',
+  host: 'localhost',
+  database: 'wiadro',
+  password: 'admin',
+  port: 5432,
+});
+
+const db = require('./queries')
+
+
 let searchedFlights = [];
 
 app.get("/", function(req,res){
