@@ -1,3 +1,4 @@
+
 <%- include("partials/header") -%>
 <main>
   <section class="hero">
@@ -14,24 +15,13 @@
       <div class="row mt-4">
         <div class="col">
           <div class="card card-body">
-            <form autocomplete="off" method="get" action="/flights">
+            <form autocomplete="off" method="post" action="/flights">
               <div class="row">
                 <div class="col-12 col-lg-6">
                   <div class="form-group mb-lg-0">
                     <label for="search-origin">Origin location</label>
                     <div class="input-group input-group-lg mb-lg-0">
-                      <select id="search-origin" class="form-control" name="" required >
-                        <option value="" selected disabled>Origin</option>
-                        <option value="">Frankfurt</option>
-                        <option value="">Krakow</option>
-                        <option value="">London</option>
-                        <option value="">Los Angeles</option>
-                        <option value="">Lyon</option>
-                        <option value="">New York</option>
-                        <option value="">Madrid</option>
-                        <option value="">Paris</option>
-                        <option value="">Warszawa</option>
-                      </select>
+                      <%- include("partials/originCities") -%>
                     </div>
                   </div>
                 </div>
@@ -39,10 +29,10 @@
                   <div class="form-group mb-lg-0">
                     <label for="search-destination">Destination location</label>
                     <div class="input-group input-group-lg mb-lg-0">
-                      <select id="search-destination" class="form-control" name="" required >
+                      <select id="search-destination" class="form-control" name="destination" required >
                         <option value="" selected disabled>Destination</option>
-                        <option value="">Frankfurt</option>
-                        <option value="">Krakow</option>
+                        <option value="Frankfurt">Frankfurt</option>
+                        <option value="Krakow">Krakow</option>
                         <option value="">London</option>
                         <option value="">Los Angeles</option>
                         <option value="">Lyon</option>
@@ -59,29 +49,19 @@
                 <div class="col-12 col-lg-6">
                   <label for="">Departure date</label>
                   <div class="input-group input-group-lg mb-3 mb-lg-0">
-                    <input class="form-control datepicker1" placeholder="Departure date" type="date" required="" value="">
+                    <input class="form-control datepicker1" name="departure" placeholder="Departure date" type="date" required="" value="">
                   </div>
                 </div>
 
                 <div class="col-12 col-lg-6">
-                  <label for="">Return date</label>
+                  <label for="">Number of people</label>
                   <div class="input-group input-group-lg mb-3 mb-lg-0">
-                    <select id="return" class="form-control" name="">
-                      <option value="no" selected>One way</option>
-                      <option value="yes">Return</option>
-                    </select>
-                    <input class="form-control datepicker2" placeholder="Return date" type="date" required="" disabled>
+                    <input class="form-control" name= "passengers" placeholder="Max. 180" type="number" min="0" max="180" required="">
                   </div>
                 </div>
               </div>
               <div class="row">
-                <div class="col-12 col-lg-6">
-                  <label for="">Number of people</label>
-                  <div class="input-group input-group-lg mb-3 mb-lg-0">
-                    <input class="form-control" placeholder="Max. 180" type="number" min="0" max="180" required="">
-                  </div>
-                </div>
-                <div class="col-12 col-lg-6">
+                <div class="col-12 col-lg-12">
                   <label for=""> <br></label>
                   <button class="btn btn-lg btn-success btn-block mt-3 mt-md-0" type="submit">Find a flight</button>
                 </div>
