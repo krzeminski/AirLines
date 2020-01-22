@@ -1,0 +1,5 @@
+<select id="search-origin" class="form-control" name="origin" required >
+  <% for(let i = 0 ; i < airway.length ; i++){ %>
+    <option value="<%=airway[i].src %>"><%=airway[i].src %></option>
+  <%}%>
+</select>
