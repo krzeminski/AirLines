@@ -1,0 +1,5 @@
+<select id="search-origin" class="form-control" name="origin" required >
+  <% for(let i = 0 ; i < returnedFlights.length ; i++){ %>
+    <option value="<%=returnedFlights[i] %>"><%=returnedFlights[i] %></option>
+  <%}%>
+</select>

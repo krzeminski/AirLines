@@ -18,13 +18,7 @@ let sourceCities = [];
 let destCities = [];
 let airway;
 let table;
-let searchedFlight = {
-  origin:"Berlin",
-  destination:"Warszawa",
-  departure:"23-01-2020",
-  return:"24-01-2020",
-  passengers:1
-};
+let searchedFlight;
 
 db.getSourceCities()
   .then(function(res){sourceCities=res;})
@@ -53,9 +47,9 @@ app.get("/", async function(req,res){
 app.get("/flights", async function(req,res){
   console.log("get searchedFlight", searchedFlight);
   // console.log(typeof(searchedFlight.origin));
-  table = db.getFlights(searchedFlight);
-  console.log("get table", table);
-  res.render("flights");
+  foundFlights = await db.getFlights(searchedFlight);
+  console.log("get table", foundFlights);
+  res.render("flights", {foundFlights:foundFlights}	);
 });
 
 app.post("/flights", async function(req,res){
@@ -94,6 +88,13 @@ app.post("/sign-up", function(req,res){
 
   res.render("sign-in");
 });
+
+//Te wywołują funkcje z queries pod localhost:3000/users...
+app.get('/users', db.getUsers)
+app.get('/users/:id', db.getUserById)
+app.post('/users', db.createUser)
+app.put('/users/:id', db.updateUser)
+app.delete('/users/:id', db.deleteUser)
 
 
 
