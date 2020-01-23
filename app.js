@@ -94,14 +94,14 @@ app.post("/sign-up", function(req,res){
 });
 
 //Te wywołują funkcje z queries pod localhost:3000/users...
-app.get('/users', function(req,res){
-  let users=db.getUsers();
+app.get('/users', async function(req,res){
+  let users = await db.getUsers();
 
   res.render("users", {users:users});
 });
 
 app.get('/users/:id', function(req,res){
-  let users=db.getUserById();
+  // let users=db.getUserById(req.params.id);
 
   res.render("users", {users:users});
 });
@@ -114,10 +114,10 @@ app.put('/users/:id', function(req,res){
   res.redirect("users");
 });
 
-app.delete('/users/:id', db.deleteUser)
+// app.delete('/users/:id', db.deleteUser)
 
-app.delete('/users/:id', function(req,res){
-  db.deleteUser();
+app.delete('/users/:id', async function(req,res){
+  await db.deleteUser(req.params.id);
   res.redirect("users");
 });
 

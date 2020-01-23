@@ -23,11 +23,12 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script type="text/javascript">
     let today = new Date();
-    let month = today.getMonth()+1;
-    let day = today.getDate();
+    let month = today.getMonth()+2;
+    let day = today.getDate()-22;
     (month < 10 ) ? month = "0" + month : true;
     (day < 10 ) ? day = "0" + day : true;
     today = today.getFullYear() + "-" + month + "-" + day;
+    // today = 2020 + "-" + 02 + "-" + 01;
     console.log(today);
 
 
@@ -68,9 +69,9 @@
 
 
         <div class="d-none d-lg-block">
-          <a href="/sign-in" class="btn btn-sm btn-success ml-3">Login</a>
+          <!-- <a href="/sign-in" class="btn btn-sm btn-success ml-3">Login</a> -->
           <a href="/sign-up" class="btn btn-sm btn-outline-success ml-3">Sign up</a>
-          <a href="/users" class="btn btn-sm btn-outline-success ml-3">Users</a>
+          <a href="/users" class="btn btn-sm btn-success ml-3">Users</a>
         <div class="d-flex d-lg-none align-items-center"><a href="./html/pages/sign-in.html" class="btn btn-sm btn-success ml-3">Login</a> <a href="./html/pages/sign-up.html" class="btn btn-sm btn-light ml-3">Sign up</a>
           <button class="navbar-toggler ml-2" type="button" data-toggle="collapse" data-target="#navbar_global" aria-controls="navbar_global" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
         </div>

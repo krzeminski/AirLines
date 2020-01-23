@@ -4,23 +4,16 @@
     <thead>
       <tr>
         <th scope="col">#</th>
-        <th scope="col">First</th>
-        <th scope="col">Last</th>
-        <th scope="col">Handle</th>
+        <th scope="col">First name</th>
+        <th scope="col">Last name</th>
+        <th scope="col">Password</th>
+        <th scope="col">e-mail</th>
+        <th scope="col">phone</th>
+        <th scope="col">Delete</th>
+        <th scope="col">Update Password</th>
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <th scope="row">2</th>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>@fat</td>
-      </tr>
-      <tr>
-        <th scope="row">3</th>
-        <td colspan="2">Larry the Bird</td>
-        <td>@twitter</td>
-      </tr>
       <% for(let i = 0 ; i < users.length ; i++){ %>
         <tr>
           <th scope="row"><%=users[i].passenger_id%></th>
@@ -29,6 +22,18 @@
           <td><%=users[i].password%></td>
           <td><%=users[i].email%></td>
           <td><%=users[i].phone%></td>
+          <td>
+            <form class="" action="/users/<%=users[i].passenger_id%>" method="delete">
+              <input class="btn btn-success btn-sm" type="submit">
+            </form>
+          </td>
+          <td>
+            <form class="" action="/users/<%=users[i].passenger_id%>" method="put">
+              <input type="text" name="" value="" placeholder="nowe hasło">
+              <input class="btn btn-success btn-sm" type="submit" >
+            </form>
+          </td>
+
         </tr>
       <%}%>
 
