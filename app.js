@@ -14,19 +14,29 @@ app.use(express.static("public"));
 
 
 
-// let sourceCities = [];
+let sourceCities = [];
 let airway = [];
+console.log("przed", db.getSourceCities());
+// let sourceCities;
 
+db.getSourceCities()
+  .then(function(res){sourceCities=res;})
+  .catch(function(err) {
+      console.log('error: ', err);
+  });
+
+console.log("app", sourceCities);
 
 
 app.get("/", async function(req,res){
-  const sourceCities = await db.getSourceCities();
-  console.log(sourceCities);
 
-  sourceCities.forEach(element =>{
+  console.log("get", sourceCities);
+
+
+  sourceCities.forEach(function(element){
      airway.push({
        src: element,
-       dest: db.getDestCities(element)
+       // dest: db.getDestCities(element)
      });
    });
 
@@ -82,10 +92,3 @@ app.post("/sign-up", function(req,res){
 app.listen(3000, function() {
   console.log("Server started on port 3000");
 });
-
-// //Te wywołują funkcje z queries pod localhost:3000/users...
-// app.get('/users', db.getUsers)
-// app.get('/users/:id', db.getUserById)
-// app.post('/users', db.createUser)
-// app.put('/users/:id', db.updateUser)
-// app.delete('/users/:id', db.deleteUser)
