@@ -42,19 +42,57 @@ async function getSourceCities(){
   return await getCity();
 };
 
+async function getDestCities(){
+  let cities;
 
-function getDestCities(){
-  client.query('SELECT dest_city FROM flight ORDER BY dest_city ASC;', (err, res) => {
-    if (err) {
-      console.log("Błąd w getDestCities",err);
-    }else{
-      console.log(res.rows);
-      return res.rows;
+  function getCity(){
+    const query = {
+      text: 'SELECT DISTINCT dest_city FROM flight ORDER BY dest_city ASC',
+      rowMode: 'array',
     }
-    //response.status(200).json(results.rows);
-    client.end();
-  })
+    return new Promise((resolve,reject) => {
+      client.query(query, (error, res) => {
+         if (error) {
+           console.log("Błąd w getSourceCities", error);
+           reject(error)
+         }else{
+           cities = res.rows;
+           return resolve(cities);
+         }
+         client.end();
+       });
+     });
+   }
+
+  return await getCity();
 };
+
+// async function getDestCities(sourceCity){
+//   let cities;
+//
+//   function getCity(){
+//     const query = {
+//     	text: 'SELECT DISTINCT dest_city FROM flight where source_city = $1::text ORDER BY dest_city ASC;',
+//     	values: [sourceCity],
+//       rowMode: 'array',
+//     }
+//     return new Promise((resolve,reject) => {
+//       client.query(query, (error, res) => {
+//          if (error) {
+//            console.log("Błąd w getSourceCities", error);
+//            reject(error)
+//          }else{
+//            cities = res.rows;
+//            return resolve(cities);
+//          }
+//          client.end();
+//        });
+//      });
+//    }
+//
+//   return await getCity();
+// };
+
 
 function getAirway(){
 

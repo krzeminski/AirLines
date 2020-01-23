@@ -15,9 +15,8 @@ app.use(express.static("public"));
 
 
 let sourceCities = [];
-let airway = [];
-console.log("przed", db.getSourceCities());
-// let sourceCities;
+let destCities = [];
+let airway;
 
 db.getSourceCities()
   .then(function(res){sourceCities=res;})
@@ -25,23 +24,22 @@ db.getSourceCities()
       console.log('error: ', err);
   });
 
-console.log("app", sourceCities);
+db.getDestCities()
+  .then(function(res){destCities=res;})
+  .catch(function(err) {
+      console.log('error: ', err);
+  });
 
 
 app.get("/", async function(req,res){
-
-  console.log("get", sourceCities);
-
-
-  sourceCities.forEach(function(element){
-     airway.push({
-       src: element,
-       // dest: db.getDestCities(element)
-     });
-   });
+   airway = {
+     src: sourceCities,
+     dest: destCities
+   };
 
   res.render("home", {airway: airway});
 });
+
 
 
 app.get("/flights", function(req,res){
