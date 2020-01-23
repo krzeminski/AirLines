@@ -57,7 +57,7 @@ app.post("/flights", function(req,res){
 
   console.log(flight);
 
-  db.getFlights(flight);
+  // db.getFlights(flight);
 
   res.redirect("/flights");
 });
