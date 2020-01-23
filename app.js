@@ -17,6 +17,14 @@ app.use(express.static("public"));
 let sourceCities = [];
 let destCities = [];
 let airway;
+let table;
+let searchedFlight = {
+  origin:"Berlin",
+  destination:"Warszawa",
+  departure:"23-01-2020",
+  return:"24-01-2020",
+  passengers:1
+};
 
 db.getSourceCities()
   .then(function(res){sourceCities=res;})
@@ -42,11 +50,15 @@ app.get("/", async function(req,res){
 
 
 
-app.get("/flights", function(req,res){
+app.get("/flights", async function(req,res){
+  console.log("get searchedFlight", searchedFlight);
+  // console.log(typeof(searchedFlight.origin));
+  table = db.getFlights(searchedFlight);
+  console.log("get table", table);
   res.render("flights");
 });
 
-app.post("/flights", function(req,res){
+app.post("/flights", async function(req,res){
   let flight = {
     origin:req.body.origin,
     destination:req.body.destination,
@@ -55,9 +67,8 @@ app.post("/flights", function(req,res){
     passengers:req.body.passengers
   };
 
-  console.log(flight);
-
-  // db.getFlights(flight);
+  console.log("flight:", flight);
+  searchedFlight = flight;
 
   res.redirect("/flights");
 });

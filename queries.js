@@ -98,21 +98,78 @@ function getAirway(){
 
 }
 
-function getFlights(flight){
-  let foundFlight;
-  client.query('SELECT a.name, b.model, f.source_city, f.dest_city, f.flight_date, f.departure_time, f.arrival_time FROM airline a, aircraft b, flight f WHERE f.source_city=$1 and f.dest_city=$2 and f.flight_date=$3 and f.airline_id=a.airline_id and f.aircraft_id=b.aircraft_id;',
-   [flight.origin, flight.destination, flight.departure], (err, res) => {
-    if (err) {
-      console.log("Błąd w getFlights", err);
-    }else{
-      console.log(res.rows);
-      foundFlight = res.rows;
-    }
-    //response.status(200).json(results.rows);
-    client.end();
-  });
-};
+// function getFlights(flight){
+//   const query = {
+//     // text: 'SELECT a.name, b.model, f.source_city, f.dest_city, f.flight_date, f.departure_time, f.arrival_time FROM airline a, aircraft b, flight f WHERE f.source_city= $1 and f.dest_city= $2 and f.flight_date= $3 and f.airline_id=a.airline_id and f.aircraft_id=b.aircraft_id;',
+//     text: 'SELECT a.name, b.model, f.source_city, f.dest_city, f.flight_date, f.departure_time, f.arrival_time FROM airline a, aircraft b, flight f WHERE f.source_city= $1 and f.dest_city= $2 and f.airline_id=a.airline_id and f.aircraft_id=b.aircraft_id;',
+//     // values: [flight.origin, flight.destination, flight.departure],
+//     values: [flight.origin, flight.destination],
+//     rowMode: 'array',
+//   }
+//
+//   return new Promise((resolve,reject) => {
+//     client.query(query, async (error, res) => {
+//      if (error) {
+//        console.log("Błąd w getFlights", error);
+//        reject(error)
+//      }else{
+//        if(res.rows.length != 0){
+//          console.log("get flight query", res.rows);
+//          resolve(res.rows);
+//        }else{
+//          console.log("Nie ma takich lotów", res.rows);
+//          resolve(res.rows);
+//        }
+//      }
+//      console.log(response.status(200).json(res.rows));
+//
+//      await client.end();
+//     });
+//   });
+// }
 
+
+function getFlights(flight){
+  const query = {
+    // text: 'SELECT a.name, b.model, f.source_city, f.dest_city, f.flight_date, f.departure_time, f.arrival_time FROM airline a, aircraft b, flight f WHERE f.source_city= $1 and f.dest_city= $2 and f.flight_date= $3 and f.airline_id=a.airline_id and f.aircraft_id=b.aircraft_id;',
+    text: 'SELECT a.name, b.model, f.source_city, f.dest_city, f.flight_date, f.departure_time, f.arrival_time FROM airline a, aircraft b, flight f WHERE f.source_city= $1 and f.dest_city= $2 and f.airline_id=a.airline_id and f.aircraft_id=b.aircraft_id;',
+    // values: [flight.origin, flight.destination, flight.departure],
+    values: [flight.origin, flight.destination],
+    rowMode: 'array',
+  }
+
+  client
+    .query(query)
+    .then(res => {
+     if(res.rows.length != 0){
+       console.log("get flight query", res.rows);
+       return res.rows;
+     }else{
+       console.log("Nie ma takich lotów", res.rows);
+       return res.rows;
+     }
+   })
+   .catch(e => console.error(e.stack));
+}
+
+
+
+
+// function getFlights(flight){
+//   let foundFlight;
+//   client.query('SELECT a.name, b.model, f.source_city, f.dest_city, f.flight_date, f.departure_time, f.arrival_time FROM airline a, aircraft b, flight f WHERE f.source_city=$1 and f.dest_city=$2 and f.flight_date=$3 and f.airline_id=a.airline_id and f.aircraft_id=b.aircraft_id;',
+//    [flight.origin, flight.destination, flight.departure], (err, res) => {
+//     if (err) {
+//       console.log("Błąd w getFlights", err);
+//     }else{
+//       console.log(res.rows);
+//       return res.rows;
+//     }
+//     //response.status(200).json(results.rows);
+//     client.end();
+//   });
+// };
+//
 
 
 function createAccount(account){
