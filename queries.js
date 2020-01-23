@@ -21,8 +21,12 @@ async function getSourceCities(){
   let cities;
 
   function getCity(){
+    const query = {
+      text: 'SELECT DISTINCT source_city FROM flight ORDER BY source_city ASC',
+      rowMode: 'array',
+    }
     return new Promise((resolve,reject) => {
-      client.query('SELECT DISTINCT source_city FROM flight ORDER BY source_city ASC', (error, res) => {
+      client.query(query, (error, res) => {
          if (error) {
            console.log("Błąd w getSourceCities", error);
            reject(error)
@@ -38,16 +42,6 @@ async function getSourceCities(){
   return await getCity();
 };
 
-//  //creme de la creme
-// client.query('SELECT DISTINCT source_city FROM flight ORDER BY source_city ASC', (err, res) => {
-//    if (err) {
-//      console.log("Błąd w getSourceCities", err);
-//    }else{
-//      console.log(res.rows[0]);
-//      return res.rows[0];
-//    }
-//    client.end();
-//  });
 
 function getDestCities(){
   client.query('SELECT dest_city FROM flight ORDER BY dest_city ASC;', (err, res) => {
