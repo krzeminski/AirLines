@@ -34,6 +34,7 @@ db.getDestCities()
 
 
 app.get("/", async function(req,res){
+  searchedFlight = null;
    airway = {
      src: sourceCities,
      dest: destCities
@@ -48,8 +49,11 @@ app.get("/flights", async function(req,res){
   console.log("get searchedFlight", searchedFlight);
   // console.log(typeof(searchedFlight.origin));
   foundFlights = await db.getFlights(searchedFlight);
-  console.log("get table", foundFlights);
-  res.render("flights", {foundFlights:foundFlights}	);
+  let isFlight = 1;
+  if(foundFlights.length == 0){
+    isFlight = 0;
+  }
+  res.render("flights", {foundFlights:foundFlights, isFlight:isFlight}	);
 });
 
 app.post("/flights", async function(req,res){
@@ -90,11 +94,32 @@ app.post("/sign-up", function(req,res){
 });
 
 //Te wywołują funkcje z queries pod localhost:3000/users...
-app.get('/users', db.getUsers)
-app.get('/users/:id', db.getUserById)
-app.post('/users', db.createUser)
-app.put('/users/:id', db.updateUser)
+app.get('/users', function(req,res){
+  let users=db.getUsers();
+
+  res.render("users", {users:users});
+});
+
+app.get('/users/:id', function(req,res){
+  let users=db.getUserById();
+
+  res.render("users", {users:users});
+});
+// app.post('/users', db.createUser)
+
+
+app.put('/users/:id', function(req,res){
+  db.updateUser();
+
+  res.redirect("users");
+});
+
 app.delete('/users/:id', db.deleteUser)
+
+app.delete('/users/:id', function(req,res){
+  db.deleteUser();
+  res.redirect("users");
+});
 
 
 

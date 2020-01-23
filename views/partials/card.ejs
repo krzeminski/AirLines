@@ -1,20 +1,25 @@
 <% for(let i = 0 ; i < foundFlights.length ; i++){ %>
 <!-- <li class="list-item"> -->
-<div class="col-md-6">
-
+<div class="col-md-12">
+<% let image = "images/" + foundFlights[i][0] + ".jpg";%>
 <div class="card mb-3" style="max-width: 540px;">
   <div class="row no-gutters">
     <div class="col-md-4">
-      <img src="images/"+<%=foundFlights[i][0]%>+".jpg" class="card-img" alt="...">
+      <img src=<%=image%> class="card-img" alt="...">
     </div>
     <div class="col-md-8">
       <div class="card-body">
-        <h5 class="card-title"> From <%=foundFlights[i][2]%> To <%=foundFlights[i][3]%></h5>
-        <p class="card-text">Transporter: <%=foundFlights[i][0]%></p>
-        <p class="card-text">Departure Day: <%=foundFlights[i][4]%></p>
-        <p class="card-text">Departure Time: <%=foundFlights[i][5]%></p>
-        <p class="card-text">Arrival Time: <%=foundFlights[i][6]%></p>
-        <p class="card-text"><small class="text-muted">Aircraft: <%=foundFlights[i][1]%></small></p>
+        <%if(isFlight==0){%>
+          <h5 class="card-title"> From <%=foundFlights[i][2]%> To <%=foundFlights[i][3]%></h5>
+          <p class="card-text">Transporter: <%=foundFlights[i][0]%></p>
+          <p class="card-text">Departure Day: <%=foundFlights[i][4]%></p>
+          <p class="card-text">Departure Time: <%=foundFlights[i][5]%></p>
+          <p class="card-text">Arrival Time: <%=foundFlights[i][6]%></p>
+          <p class="card-text"><small class="text-muted">Aircraft: <%=foundFlights[i][1]%></small></p>
+        <%}else{%>
+          <h5 class="card-title">Sorry, we don't have flights avaible on this airway this day</h5>
+          <p class="card-text">Try on different day</p>
+        <%}%>
       </div>
     </div>
 </div>
