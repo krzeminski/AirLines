@@ -16,7 +16,11 @@ const client = new Client({
  password: 'admin',
  port: 5432,
 });
+
 client.connect()
+
+
+//******************************************************* GETTERY*********************************************************
 
 async function getSourceCities(){
   let cities;
@@ -35,7 +39,7 @@ async function getSourceCities(){
            cities = res.rows;
            return resolve(cities);
          }
-         client.end();
+         // client.end();
        });
      });
    }
@@ -60,7 +64,7 @@ async function getDestCities(){
            cities = res.rows;
            return resolve(cities);
          }
-         client.end();
+         // client.end();
        });
      });
    }
@@ -92,22 +96,10 @@ function getFlights(flight){
          resolve(res.rows);
        }
      }
-     await client.end();
+     // await client.end();
     });
   });
 }
-
-function createAccount(account){
-  client.query('INSERT INTO passenger (first_name, last_name, password, email, phone) VALUES ($1, $2, $3, $4, $5);',
-   [account.name, account.last_name, account.password, account.email, account.phone], (err,res) => {
-  	if (err) {
-      console.log("Błąd w createAccount", err);
-    }else{
-      console.log('Account created!');
-    }
-    client.end();
-  })
-};
 
 async function getUsers(){
 
@@ -119,13 +111,13 @@ async function getUsers(){
     return new Promise((resolve,reject) => {
       client.query(query, (error, res) => {
          if (error) {
-           console.log("Błąd w pobieraniu userów", error);
+           console.log("Błąd w pobieraniu użytkowników", error);
            reject(error)
          }else{
-           console.log(res.rows);
+           // console.log(res.rows);
            return resolve(res.rows);
          }
-         client.end();
+         // client.end();
        });
      });
    }
@@ -148,10 +140,10 @@ const getUserById = async (request, response) => {
            console.log("Błąd w pobieraniu użytkownika", error);
            reject(error)
          }else{
-           console.log(res.rows);
+           // console.log(res.rows);
            return resolve(res.rows);
          }
-         client.end();
+         // client.end();
        });
      });
    }
@@ -159,47 +151,42 @@ const getUserById = async (request, response) => {
   return await getOne(id);
 };
 
-// const getUserById = (request, response) => {
-//   const id = parseInt(request.params.id)
-//
-//   pool.query('SELECT * FROM passenger WHERE passenger_id = $1', [id], (error, results) => {
-//     if (error) {
-//       throw error
-//     }
-//     response.render("users", {users:results.rows});
-//
-//     // response.status(200).json(results.rows)
-//   })
-// };
-
-
-const createUser = (request, response) => {
-  const { name, email } = request.body
-
-  pool.query('INSERT INTO passenger (name, email) VALUES ($1, $2)', [name, email], (error, results) => {
-    if (error) {
-      throw error
+//**************************************************POST***************************************************
+function createAccount(account){
+  client.query('INSERT INTO passenger (first_name, last_name, password, email, phone) VALUES ($1, $2, $3, $4, $5);',
+   [account.name, account.last_name, account.password, account.email, account.phone], (err,res) => {
+  	if (err) {
+      console.log("Błąd w createAccount", err);
+    }else{
+      console.log('Account created!');
     }
-    response.status(201).send(`User added with ID: ${result.insertId}`)
+    // client.end();
   })
-}
+};
 
+
+
+//********************************************************PUT*********************************************
 const updateUser = (request, response) => {
-  const id = parseInt(request.params.id)
-  const { password } = request.body
+  const id = parseInt(request.params.id);
+  const password = request.body.password;
+  // console.log(id, request.body);
 
-  pool.query(
+  client.query(
     'UPDATE passenger SET password = $1 WHERE passenger_id = $2',
-    [name, email, id],
+    [password, id],
     (error, results) => {
       if (error) {
         throw error
       }
-      // response.render("users", {users:results.rows});
-      response.status(200).send(`User modified with ID: ${id}`)
+      // console.log(`User with ID: ${id} has updated password`);
+      response.redirect("/users");
+
     }
   )
 }
+
+//*************************************************DELETE******************************************************
 
 async function deleteUser(request, response){
   const id = parseInt(request.params.id)
@@ -211,7 +198,8 @@ async function deleteUser(request, response){
           reject(error);
         }
         // response.status(200).send(`User deleted with ID: ${id}`)
-        resolve(console.log('User deleted with ID: ${id}'));
+        // console.log(`User deleted with ID: ${id}`);
+        resolve(response.redirect("/users"));
 
       })
     });
@@ -220,18 +208,7 @@ async function deleteUser(request, response){
   return await deleteThis(id);
 }
 
-// const deleteUser = (request, response) => {
-//   const id = parseInt(request.params.id)
-//
-//   pool.query('DELETE FROM users WHERE passenger_id = $1', [id], (error, results) => {
-//     if (error) {
-//       throw error
-//     }
-//     response.status(200).send(`User deleted with ID: ${id}`)
-//     response.redirect("users");
-//
-//   })
-// }
+
 
 module.exports = {
   getSourceCities,
@@ -252,10 +229,43 @@ module.exports = {
 
 
 
+// const createUser = (request, response) => {
+//   const { name, email } = request.body
+//
+//   pool.query('INSERT INTO passenger (name, email) VALUES ($1, $2)', [name, email], (error, results) => {
+//     if (error) {
+//       throw error
+//     }
+//     response.status(201).send(`User added with ID: ${result.insertId}`)
+//   })
+// }
 
 
+// const getUserById = (request, response) => {
+//   const id = parseInt(request.params.id)
+//
+//   pool.query('SELECT * FROM passenger WHERE passenger_id = $1', [id], (error, results) => {
+//     if (error) {
+//       throw error
+//     }
+//     response.render("users", {users:results.rows});
+//
+//     // response.status(200).json(results.rows)
+//   })
+// };
 
-
+// const deleteUser = (request, response) => {
+//   const id = parseInt(request.params.id)
+//
+//   pool.query('DELETE FROM users WHERE passenger_id = $1', [id], (error, results) => {
+//     if (error) {
+//       throw error
+//     }
+//     response.status(200).send(`User deleted with ID: ${id}`)
+//     response.redirect("users");
+//
+//   })
+// }
 
 
 // async function getDestCities(sourceCity){

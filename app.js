@@ -109,23 +109,15 @@ app.get('/users/:id', async function(req,res){
   let users= await db.getUserById(req, res);
   res.render("users", {users:users});
 });
-// app.post('/users', db.createUser)
 
-
-
-// app.put('/users/:id', function(req,res){
-//   db.updateUser();
-//
-//   res.redirect("users");
-// });
-// app.get('/users/:id', db.getUserById)
 app.put('/users/:id', db.updateUser)
-app.delete('/users/:id', db.deleteUser)
+
+
+// Działają obie metody wywołania
+// app.delete('/users/:id', db.deleteUser)
 
 app.delete('/users/:id', async function(req,res){
   await db.deleteUser(req,res);
-  response.redirect("users");
-
 });
 
 
