@@ -23,12 +23,12 @@
           <td><%=users[i].email%></td>
           <td><%=users[i].phone%></td>
           <td>
-            <form class="" action="/users/<%=users[i].passenger_id%>" method="delete">
+            <form action="/users/<%=users[i].passenger_id%>?_method=DELETE" method="POST">
               <input class="btn btn-success btn-sm" type="submit">
             </form>
           </td>
           <td>
-            <form class="" action="/users/<%=users[i].passenger_id%>" method="put">
+            <form action="/users/<%=users[i].passenger_id%>?_method=PUT" method="POST">
               <input type="text" name="" value="" placeholder="nowe hasło">
               <input class="btn btn-success btn-sm" type="submit" >
             </form>

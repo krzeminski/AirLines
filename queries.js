@@ -1,5 +1,6 @@
 const { Pool, Client }  = require('pg');
 
+
 const pool = new Pool({
   user: 'postgres',
   host: 'localhost',
@@ -131,70 +132,106 @@ async function getUsers(){
 
   return await getAll();
 };
+
+
+const getUserById = async (request, response) => {
+  const id = parseInt(request.params.id)
+  function getOne(id){
+    const query = {
+      text: 'SELECT * FROM passenger WHERE passenger_id = $1',
+      // rowMode: 'array',
+      values:  [id],
+    }
+    return new Promise((resolve,reject) => {
+      client.query(query, (error, res) => {
+         if (error) {
+           console.log("Błąd w pobieraniu użytkownika", error);
+           reject(error)
+         }else{
+           console.log(res.rows);
+           return resolve(res.rows);
+         }
+         client.end();
+       });
+     });
+   }
+
+  return await getOne(id);
+};
+
+// const getUserById = (request, response) => {
+//   const id = parseInt(request.params.id)
 //
-// const = (request, response) => {
-//   pool.query('SELECT * FROM passenger ORDER BY passenger_id ASC', (error, results) => {
+//   pool.query('SELECT * FROM passenger WHERE passenger_id = $1', [id], (error, results) => {
 //     if (error) {
 //       throw error
 //     }
-//     response.status(200).json(results.rows)
+//     response.render("users", {users:results.rows});
+//
+//     // response.status(200).json(results.rows)
 //   })
 // };
 
-const getUserById = (request, response) => {
-  const id = parseInt(request.params.id)
 
-  pool.query('SELECT * FROM passenger WHERE passenger_id = $1', [id], (error, results) => {
+const createUser = (request, response) => {
+  const { name, email } = request.body
+
+  pool.query('INSERT INTO passenger (name, email) VALUES ($1, $2)', [name, email], (error, results) => {
     if (error) {
       throw error
     }
-    response.status(200).json(results.rows)
+    response.status(201).send(`User added with ID: ${result.insertId}`)
   })
-};
-
-// const createUser = (request, response) => {
-//   const { name, email } = request.body
-//
-//   pool.query('INSERT INTO passenger (name, email) VALUES ($1, $2)', [name, email], (error, results) => {
-//     if (error) {
-//       throw error
-//     }
-//     response.status(201).send(`User added with ID: ${result.insertId}`)
-//   })
-// }
+}
 
 const updateUser = (request, response) => {
   const id = parseInt(request.params.id)
-  const { name, email } = request.body
+  const { password } = request.body
 
   pool.query(
-    'UPDATE passenger SET name = $1, email = $2 WHERE passenger_id = $3',
+    'UPDATE passenger SET password = $1 WHERE passenger_id = $2',
     [name, email, id],
     (error, results) => {
       if (error) {
         throw error
       }
+      // response.render("users", {users:results.rows});
       response.status(200).send(`User modified with ID: ${id}`)
     }
   )
 }
 
-async function deleteUser(id){
-let id = id;
+async function deleteUser(request, response){
+  const id = parseInt(request.params.id)
+
   function deleteThis(id){
     return new Promise((resolve,reject) => {
       pool.query('DELETE FROM passenger WHERE passenger_id = $1', [id], (error, results) => {
         if (error) {
-          throw error
+          reject(error);
         }
         // response.status(200).send(`User deleted with ID: ${id}`)
-        console.log(`User deleted with ID: ${id}`);
+        resolve(console.log('User deleted with ID: ${id}'));
+
       })
     });
   }
 
   return await deleteThis(id);
 }
+
+// const deleteUser = (request, response) => {
+//   const id = parseInt(request.params.id)
+//
+//   pool.query('DELETE FROM users WHERE passenger_id = $1', [id], (error, results) => {
+//     if (error) {
+//       throw error
+//     }
+//     response.status(200).send(`User deleted with ID: ${id}`)
+//     response.redirect("users");
+//
+//   })
+// }
 
 module.exports = {
   getSourceCities,

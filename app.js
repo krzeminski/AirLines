@@ -1,9 +1,12 @@
 //jshint esversion:6
+/*eslint prefer-const : "error"*/
+/*eslint-env es6*/
 
 const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const db = require('./queries')
+var methodOverride = require('method-override')
 
 const app = express();
 
@@ -11,6 +14,8 @@ app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
+// override with POST having ?_method=PUT
+app.use(methodOverride('_method'))
 
 
 
@@ -100,25 +105,27 @@ app.get('/users', async function(req,res){
   res.render("users", {users:users});
 });
 
-app.get('/users/:id', function(req,res){
-  // let users=db.getUserById(req.params.id);
-
+app.get('/users/:id', async function(req,res){
+  let users= await db.getUserById(req, res);
   res.render("users", {users:users});
 });
 // app.post('/users', db.createUser)
 
 
-app.put('/users/:id', function(req,res){
-  db.updateUser();
 
-  res.redirect("users");
-});
-
-// app.delete('/users/:id', db.deleteUser)
+// app.put('/users/:id', function(req,res){
+//   db.updateUser();
+//
+//   res.redirect("users");
+// });
+// app.get('/users/:id', db.getUserById)
+app.put('/users/:id', db.updateUser)
+app.delete('/users/:id', db.deleteUser)
 
 app.delete('/users/:id', async function(req,res){
-  await db.deleteUser(req.params.id);
-  res.redirect("users");
+  await db.deleteUser(req,res);
+  response.redirect("users");
+
 });
 
 
