@@ -3,16 +3,15 @@
 <main>
   <section class="hero">
     <div class="container">
-      <div class="row-group">
-        <div class="col-12 text-md-left">
-          <h1 class="display-3">Select flights.</h1>
-        </div>
-      </div>
       <div class="row">
         <!-- <div class="flights-head">
         </div> -->
         <!-- <ul class="flights-panel"> -->
-            <%- include("partials/card") -%>
+            <%if(isFlight==0){%>
+					<%- include("partials/cardByDate") -%>
+				<%}else{%>
+					<%- include("partials/card") -%>
+				<%}%>
         <!-- </ul> -->
       </div>
     </div>

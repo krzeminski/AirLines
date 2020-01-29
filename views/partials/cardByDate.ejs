@@ -1,0 +1,32 @@
+<div class="row-group">
+    <div class="col-12 text-md-center">
+         <h2 class="display-4">Sorry, we couldn't find any flights on that exact route...</h2>
+		 <h3>Here are all the other flights for said date:</h3> 
+    </div>
+</div>
+
+<% for(let i = 0 ; i < foundFlightsByDate.length ; i++){ %>
+<!-- <li class="list-item"> -->
+<div class="col-md-12">
+<% let image = "/images/" + foundFlightsByDate[i][0] + ".jpg";%>
+<div class="card mb-12">
+  <div class="row no-gutters">
+    <div class="col-md-4">
+      <img src=<%=image%> class="card-img" alt="...">
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title"> From <%=foundFlightsByDate[i][2]%> To <%=foundFlightsByDate[i][3]%></h5>
+        <p class="card-text">Transporter: <%=foundFlightsByDate[i][0]%></p>
+        <p class="card-text">Departure Day: <%=foundFlightsByDate[i][4]%></p>
+        <p class="card-text">Departure Time: <%=foundFlightsByDate[i][5]%></p>
+        <p class="card-text">Arrival Time: <%=foundFlightsByDate[i][6]%></p>
+        <p class="card-text"><small class="text-muted">Aircraft: <%=foundFlightsByDate[i][1]%></small></p>
+      </div>
+    </div>
+</div>
+</div>
+
+</div>
+<!-- </li> -->
+<%}%>

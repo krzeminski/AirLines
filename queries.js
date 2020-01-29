@@ -101,6 +101,32 @@ function getFlights(flight){
   });
 }
 
+function getFlightsByDate(flight){
+  const query = {
+    text: 'SELECT a.name, b.model, f.source_city, f.dest_city, f.flight_date, f.departure_time, f.arrival_time FROM airline a, aircraft b, flight f WHERE f.flight_date= $1 and f.airline_id=a.airline_id and f.aircraft_id=b.aircraft_id;',
+    values: [flight.departure],
+    rowMode: 'array',
+  }
+
+  return new Promise((resolve,reject) => {
+    client.query(query, async (error, res) => {
+     if (error) {
+       console.log("Błąd w getFlightsByDate", error);
+       reject(error)
+     }else{
+       if(res.rows.length != 0){
+         console.log("get flightByDate query", res.rows);
+         resolve(res.rows);
+       }else{
+         console.log("Nie ma takich lotów", res.rows);
+         resolve(res.rows);
+       }
+     }
+     // await client.end();
+    });
+  });
+}
+
 async function getUsers(){
 
   function getAll(){
@@ -214,6 +240,7 @@ module.exports = {
   getSourceCities,
   getDestCities,
   getFlights,
+  getFlightsByDate,
   createAccount,
   getUsers,
   getUserById,

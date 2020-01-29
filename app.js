@@ -54,11 +54,17 @@ app.get("/flights", async function(req,res){
   console.log("get searchedFlight", searchedFlight);
   // console.log(typeof(searchedFlight.origin));
   foundFlights = await db.getFlights(searchedFlight);
+  foundFlightsByDate = await db.getFlightsByDate(searchedFlight);
   let isFlight = 1;
+  // let isFlightByDate = 0;
   if(foundFlights.length == 0){
     isFlight = 0;
   }
-  res.render("flights", {foundFlights:foundFlights, isFlight:isFlight}	);
+  // if(flight.origin=='undefined' && flight.destination=='undefined'){
+//	isFlightByDate = 1;
+  //}
+  res.render("flights", {foundFlights:foundFlights, foundFlightsByDate:foundFlightsByDate, isFlight:isFlight}	);
+  // res.render("flights", {foundFlights:foundFlights, foundFlightsByDate:foundFlightsByDate, isFlight:isFlight, isFlightByDate:isFlightByDate}	);
 });
 
 app.post("/flights", async function(req,res){
@@ -76,15 +82,15 @@ app.post("/flights", async function(req,res){
   res.redirect("/flights");
 });
 
-app.get("/sign-in", function(req,res){
-  res.render("sign-in");
-});
+// app.get("/sign-in", function(req,res){
+  // res.render("sign-in");
+// });
 
 app.get("/sign-up", function(req,res){
   res.render("sign-up");
 });
 
-app.post("/sign-up", function(req,res){
+app.post("/sign-up", async function(req,res){
   let account = {
     name: req.body.name,
     last_name: req.body.surname,
@@ -94,8 +100,7 @@ app.post("/sign-up", function(req,res){
   }
 
   db.createAccount(account);
-
-  res.render("sign-in");
+  res.redirect("/users");
 });
 
 //Te wywołują funkcje z queries pod localhost:3000/users...
