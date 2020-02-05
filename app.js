@@ -18,18 +18,19 @@ app.use(express.static("public"));
 app.use(methodOverride('_method'))
 
 
-
 let sourceCities = [];
 let destCities = [];
 let airway;
 let table;
 let searchedFlight;
 
+
 db.getSourceCities()
   .then(function(res){sourceCities=res;})
   .catch(function(err) {
       console.log('error: ', err);
   });
+
 
 db.getDestCities()
   .then(function(res){destCities=res;})
@@ -49,23 +50,18 @@ app.get("/", async function(req,res){
 });
 
 
-
 app.get("/flights", async function(req,res){
   console.log("get searchedFlight", searchedFlight);
-  // console.log(typeof(searchedFlight.origin));
   foundFlights = await db.getFlights(searchedFlight);
   foundFlightsByDate = await db.getFlightsByDate(searchedFlight);
   let isFlight = 1;
-  // let isFlightByDate = 0;
   if(foundFlights.length == 0){
     isFlight = 0;
   }
-  // if(flight.origin=='undefined' && flight.destination=='undefined'){
-//	isFlightByDate = 1;
-  //}
+
   res.render("flights", {foundFlights:foundFlights, foundFlightsByDate:foundFlightsByDate, isFlight:isFlight}	);
-  // res.render("flights", {foundFlights:foundFlights, foundFlightsByDate:foundFlightsByDate, isFlight:isFlight, isFlightByDate:isFlightByDate}	);
 });
+
 
 app.post("/flights", async function(req,res){
   let flight = {
@@ -82,13 +78,11 @@ app.post("/flights", async function(req,res){
   res.redirect("/flights");
 });
 
-// app.get("/sign-in", function(req,res){
-  // res.render("sign-in");
-// });
 
 app.get("/sign-up", function(req,res){
   res.render("sign-up");
 });
+
 
 app.post("/sign-up", async function(req,res){
   let account = {
@@ -103,12 +97,14 @@ app.post("/sign-up", async function(req,res){
   res.redirect("/users");
 });
 
+
 //Te wywołują funkcje z queries pod localhost:3000/users...
 app.get('/users', async function(req,res){
   let users = await db.getUsers();
 
   res.render("users", {users:users});
 });
+
 
 app.get('/users/:id', async function(req,res){
   let users= await db.getUserById(req, res);
@@ -124,8 +120,6 @@ app.put('/users/:id', db.updateUser)
 app.delete('/users/:id', async function(req,res){
   await db.deleteUser(req,res);
 });
-
-
 
 
 app.listen(3000, function() {
